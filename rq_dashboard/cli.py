@@ -116,7 +116,7 @@ def run(
     click.echo('RQ Dashboard version {0}'.format(VERSION))
     app = make_flask_app(config, username, password, url_prefix)
     if redis_url:
-        app.config['REDIS_URL'] = redis_url
+        app.config['RQ_REDIS_URL'] = redis_url
     if redis_host:
         app.config['REDIS_HOST'] = redis_host
     if redis_port:

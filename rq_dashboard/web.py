@@ -35,7 +35,7 @@ blueprint = Blueprint(
 
 @blueprint.before_app_first_request
 def setup_rq_connection():
-    redis_url = current_app.config.get('REDIS_URL')
+    redis_url = current_app.config.get('RQ_REDIS_URL')
     if isinstance(redis_url, list):
         current_app.redis_conn = from_url(redis_url[0])
     elif redis_url:
@@ -188,7 +188,7 @@ def compact_queue(queue_name):
 @blueprint.route('/rq-instance/<instance_number>', methods=['POST'])
 @jsonify
 def change_rq_instance(instance_number):
-    redis_url = current_app.config.get('REDIS_URL')
+    redis_url = current_app.config.get('RQ_REDIS_URL')
     if not isinstance(redis_url, list):
         return dict(status='Single RQ. Not Permitted.')
     if int(instance_number) >= len(redis_url):
@@ -201,7 +201,7 @@ def change_rq_instance(instance_number):
 @blueprint.route('/rq-instances.json')
 @jsonify
 def list_instances():
-    return dict(rq_instances=current_app.config.get('REDIS_URL'))
+    return dict(rq_instances=current_app.config.get('RQ_REDIS_URL'))
 
 @blueprint.route('/queues.json')
 @jsonify
